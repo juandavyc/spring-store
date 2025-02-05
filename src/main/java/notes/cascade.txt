@@ -1,0 +1,36 @@
+//      orderRepository.findAll().forEach(System.out::println);
+//      billRepository.findAll().forEach(System.out::println);
+
+//		cascade PERSIST
+//		var bill = BillEntity
+//				.builder()
+//				.rfc("ASD-1234")
+//				.totalAmount(BigDecimal.TEN)
+//				.id("b312")
+//				.build();
+//		// forma de solucionar
+//		// this.billRepository.save(bill);
+//
+//		var order = OrderEntity
+//				.builder()
+//				.createdAt(LocalDateTime.now())
+//				.clientName("Marc Marquez")
+//				.bill(bill)
+//				.build();
+//
+//		orderRepository.save(order);
+
+// 		cascade MERGE
+//		var order = this.orderRepository.findById(17L).get();
+//		System.out.println("Pre Persist: " + order.getClientName());
+//		order.setClientName("Alex Marquez");
+//
+//		order.getBill().setRfc("AAAAA11111");
+//		this.orderRepository.save(order);
+//
+//		var orderUpdated = this.orderRepository.findById(17L).get();
+//		System.out.println("Post Persist: " + orderUpdated.getClientName());
+
+//      cascade REMOVE, DELETE
+//		var order = this.orderRepository.findById(17L).get();
+//		this.orderRepository.delete(order);

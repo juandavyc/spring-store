@@ -1,0 +1,38 @@
+
+		var productsCatalog = this.productCatalogRepository.findAll();
+
+		// traer 3 productos
+		var productsStream = StreamSupport.stream(productsCatalog.spliterator(),false);
+		var productsList = productsStream.limit(3).toList();
+
+		var productCatalog1 = productsList.get(0);
+		var productCatalog2 = productsList.get(1);
+		var productCatalog3 = productsList.get(2);
+
+		// orden que ya existe y se va actualizar
+		var order = this.orderRepository.findById(1L).orElseThrow();
+
+		// compro p1:uno,p2:dos y p3:10 cantidades del catalogo
+		var product1 = ProductEntity.builder()
+				.quantity(BigInteger.ONE)
+				.build();
+		var product2 = ProductEntity.builder()
+				.quantity(BigInteger.TWO)
+				.build();
+		var product3 = ProductEntity.builder()
+				.quantity(BigInteger.TEN)
+				.build();
+		// convierte en una lista para asignar a orden
+		var products = List.of(product1, product2, product3);
+
+		// relacionando product con catalogo
+		product1.setCatalog(productCatalog1);
+		product2.setCatalog(productCatalog2);
+		product3.setCatalog(productCatalog3);
+
+		// relacion de orden ocn productos
+		order.setProducts(products);
+
+		products.forEach(p->p.setOrder(order));
+
+		this.orderRepository.save(order);

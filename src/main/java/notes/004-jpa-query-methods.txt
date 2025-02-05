@@ -1,0 +1,135 @@
+  // AND
+  @GetMapping(path = "filters")
+    public ResponseEntity<List<ProductCatalogEntity>> getRatingDiscount(
+            @RequestParam Short rating,
+            @RequestParam(required = false) Boolean discount
+    ){
+        return ResponseEntity.ok(this.productCatalogService.findByRatingAndIsDiscount(
+                rating,
+                discount!=null ? discount : true
+        ));
+    }
+
+    //  findByNameOrBrand
+      @GetMapping(path = "filters")
+        public ResponseEntity<List<ProductCatalogEntity>> getNameOrBrand(
+                @RequestParam String name,
+                @RequestParam String brand
+        ) {
+            return ResponseEntity.ok(this.productCatalogService.findByNameOrBrand(name, brand));
+        }
+
+        // Is maneja null, Equals es similar a = findByNameIs
+
+          @GetMapping(path = "filters")
+            public ResponseEntity<List<ProductCatalogEntity>> getNameIs(
+                    @RequestParam String name
+            ) {
+                return ResponseEntity.ok(this.productCatalogService.findByNameIs(
+                        name.equals("null") ? null : name)
+                );
+            }
+
+            // between findByLaunchingDateBetween
+ @GetMapping(path = "filters")
+    public ResponseEntity<List<ProductCatalogEntity>> xxx(
+            @RequestParam LocalDate start,
+            @RequestParam LocalDate end
+    ) {
+
+
+        // findByRatingLessThan or findByRatingLessThanEqual | findByRatingGreaterThan
+       //@GetMapping(path = "rating/{rating}/discount/{discount}")
+        @GetMapping(path = "filters")
+        public ResponseEntity<List<ProductCatalogEntity>> xxx(
+                @RequestParam Short rating
+        ) {
+
+        // findByLaunchinDateAfter -> fecha mayor a >
+        // findByLauchingDateGreaterThan -> fecha mayor a >
+        // findByLauchingDateGreaterThanEqual -> fecha mayor igual >=
+        // findByLaunchinDateBefore -> fecha menor a <
+        // findByLauchingDateLessThan -> fecha menor a <
+        // findByLauchingDateLessThanEqual -> fecha menor igual <=
+
+    @GetMapping(path = "filters")
+    public ResponseEntity<List<ProductCatalogEntity>> xxx(
+            @RequestParam LocalDate date
+    ) {
+
+    // findByNameIsNull() no recibe parametros, solo busca los null
+    // findByNameIsNullOrNameIs(string nameIs) busca nulos o valor especifico
+    // findByNameIsNotNull() los todos pero que enombre no sea null
+
+ @GetMapping(path = "filters")
+    public ResponseEntity<List<ProductCatalogEntity>> xxx(
+            @RequestParam String name
+    ) {
+
+    //findByNameLike(text) funciona igual a finByName -> like 'texto'
+    //findByNameStartingWith(name); -> like 'x%'
+    //findByNameEndingWith(name); -> like '%m'
+    //findByNameContaining(name); -> like '%ito%'
+    //findByNameStartsWithAndNameEndingWith(String a,String b); -> like 'B%e'
+    //findByNameStartsWithAndNameNotLike like 'a'
+    // _B%
+    // SQL
+    // @Query(value = "SELECT * FROM products_catalog WHERE product_name LIKE CONCAT('_',:pattern,'%') ", nativeQuery = true)
+    // JPQL
+    // @Query(value = "SELECT pce FROM ProductCatalogEntity pce WHERE pce.name LIKE CONCAT('_',:pattern,'%')")
+
+      @GetMapping(path = "filters")
+        public ResponseEntity<List<ProductCatalogEntity>> getByNameLike(
+                @RequestParam String a,
+                @RequestParam String b
+        ) {
+
+        // findAllByOrderByNameAsc; -> * from [table] order by [column] asc
+        // findAllByOrderByNameDesc;
+        // findByNameOrderByNameAsc; // condicionado y ordenado
+        // findByBrandAndRatingLessThanEqualOrderByRatingAsc
+        // findByBrandStartingWithAndRatingLessThanEqualOrderByRatingAsc
+          @GetMapping(path = "filters")
+            public ResponseEntity<List<ProductCatalogEntity>> xxx(
+                    @RequestParam String a,
+                    @RequestParam Short b
+            ) {
+
+        // Not diferente, distinto
+        // findByNameStartsWithAndBrandNot
+        // findByNameStartsWithAndPriceNot, rating
+
+         @GetMapping(path = "filters")
+            public ResponseEntity<List<ProductCatalogEntity>> getByNameLike(
+                    @RequestParam String a,
+                    @RequestParam String b
+            ) {
+
+
+        // IN y NotIn
+        // Recibe un collection, se puede enviar
+        // filters?ratings=1&ratings=2&ratings=5
+        // filters?ratings=1,2,5
+        // findByRatingInOrderByRatingDesc
+        // findByRatingInAndBrandIsLikeOrderByRatingDesc
+        // Not in
+        // filters?ratings=1,2,3,4,5
+        // findByRatingNotInOrderByRatingDesc
+
+         @GetMapping(path = "filters")
+            public ResponseEntity<List<ProductCatalogEntity>> xxxx(
+                    @RequestParam Collection<Short> ratings,
+                    @RequestParam String brand
+            ) {
+
+        // True o False, no hay necesida de pasar el valor
+        // findByIsDiscountTrue findByIsDiscountFalse
+
+        //IgnoreCase
+
+        //CREATE INDEX idx_product_name ON products_catalog (product_name);
+        //   @Index(name = 'idx_product_name', columnList = 'product_name', unique = true)
+
+        // join jpql con tabla de rompimiento, usar fetch
+        @Query("SELECT pce FROM ProductCatalogEntity pce LEFT JOIN FETCH pce.categories ce WHERE ce.id=:categoryId")
+        List<ProductCatalogEntity> getByCategories(Long categoryId);

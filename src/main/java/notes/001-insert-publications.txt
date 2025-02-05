@@ -1,0 +1,23 @@
+  var random = new Random();
+        //var orderRandom = random.nextInt(15)+1;
+
+        var productsCatalog = new LinkedList<>
+                (this.productCatalogRepository.findAll());
+
+        IntStream.range(0, productsCatalog.size()).forEach(i -> {
+            var idOrderRandom = random.nextLong(15)+1;
+            var orderRandom = this.orderRepository.findById(idOrderRandom).orElseThrow();
+
+            var product = ProductEntity.builder()
+                    .quantity(BigInteger.valueOf(random.nextInt(5)+1))
+                    .catalog(productsCatalog.poll()) // el primero
+                    //.order(orderRandom)
+                    .build();
+
+            orderRandom.addProduct(product);
+
+            product.setOrder(orderRandom);
+            // guardar orden actualizada con su producto
+            this.orderRepository.save(orderRandom);
+
+        });
