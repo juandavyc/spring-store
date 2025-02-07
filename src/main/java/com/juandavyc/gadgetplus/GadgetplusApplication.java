@@ -51,6 +51,10 @@ public class GadgetplusApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
+
+//        final var product = productCatalogRepository.findByName("Desktop for pc");
+//
+//        System.out.println(product);
 //            var rejects = this.rejectProductRepository.findAll();
 //
 //            rejects.stream()

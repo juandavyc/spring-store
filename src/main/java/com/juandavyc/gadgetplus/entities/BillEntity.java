@@ -25,7 +25,7 @@ public class BillEntity {
     private BigDecimal totalAmount; // para aritmetica
 
     @Column(name = "client_rfc", length = 14, nullable = false)
-    private String rfc;
+    private String clientRfc;
 
 
     // forma 1 desaparecer recursividad infinta

@@ -25,6 +25,7 @@ public class ProductEntity {
 
     @ManyToOne
     @JoinColumn(name = "id_order")
+    @ToString.Exclude
     private OrderEntity order;
 
 

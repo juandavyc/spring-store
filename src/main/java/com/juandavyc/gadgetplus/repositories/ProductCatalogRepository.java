@@ -29,6 +29,7 @@ public interface ProductCatalogRepository extends JpaRepository<ProductCatalogEn
 //    @Query(value = "SELECT pce FROM ProductCatalogEntity pce WHERE pce.name LIKE CONCAT(:pattern,'__-%')")
 //    List<ProductCatalogEntity> findByNamePattern(String pattern);
 
+
     List<ProductCatalogEntity> findByNameLike(String name);
 
     @Query("SELECT pce FROM ProductCatalogEntity pce LEFT JOIN FETCH pce.categories ce WHERE ce.id=:categoryId")

@@ -14,19 +14,25 @@ import com.juandavyc.gadgetplus.entities.ProductEntity;
 @Entity
 @Table(name = "orders")
 //lombok
-@Getter
-@Setter
-@ToString
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+
+@Getter
+@Setter
+@ToString
+
 public class OrderEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) /*postgres and mysql*/
     private Long id;
+
     @Column(nullable = false)
     private LocalDateTime createdAt;
+
+
     @Column(length = 32, nullable = false)
     private String clientName;
     // si hago un save, se guarde primero el hijo
