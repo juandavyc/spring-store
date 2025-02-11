@@ -12,7 +12,7 @@ public interface OrdersCrudService {
 
     OrderDTO update(OrderDTO order, Long id);
 
-    void delete(Long id);
+    void deleteById(Long id);
 
     void delete(String clientName);
 

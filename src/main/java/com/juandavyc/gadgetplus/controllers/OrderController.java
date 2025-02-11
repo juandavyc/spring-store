@@ -41,8 +41,8 @@ public class OrderController {
     }
 
     @DeleteMapping(path = "{id}")
-    public ResponseEntity<Void> deleteByName(@PathVariable(name = "id")  Long idToDelete) {
-        ordersCrudService.delete(idToDelete);
+    public ResponseEntity<Void> deleteById(@PathVariable(name = "id")  Long idToDelete) {
+        ordersCrudService.deleteById(idToDelete);
         return ResponseEntity.noContent().build();
     }
 }

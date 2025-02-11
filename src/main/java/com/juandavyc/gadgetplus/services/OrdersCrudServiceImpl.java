@@ -115,12 +115,12 @@ public class OrdersCrudServiceImpl implements OrdersCrudService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void deleteById(Long id) {
         if(orderRepository.existsById(id)) {
             orderRepository.deleteById(id);
         }
         else{
-            throw new IllegalArgumentException("Client no exists, {}"+id);
+            throw new IllegalArgumentException("Order no exists, {}"+id);
         }
     }
     @Transactional(propagation = Propagation.REQUIRED)
@@ -157,6 +157,7 @@ public class OrdersCrudServiceImpl implements OrdersCrudService {
 
 //        System.out.println("mapper");
 //
+         // establece la factura
         modelMapper.typeMap(BillDTO.class, BillEntity.class)
                 .addMappings(mapper ->
                         mapper.map(BillDTO::getIdBill, BillEntity::setId)
@@ -179,11 +180,22 @@ public class OrdersCrudServiceImpl implements OrdersCrudService {
 
     private BigDecimal getAndSetProductsAndTotal(List<ProductsDTO> productsDto, OrderEntity orderEntity) {
 
+
         return productsDto.stream()
                 .map(productDTO -> {
                     final var productFromCatalog = productCatalogRepository
                             .findByName(productDTO.getName())
                             .orElseThrow();
+
+
+                    final var productEntity = ProductEntity.builder()
+                            .catalog(productFromCatalog)
+                            .quantity(productDTO.getQuantity())
+                            .order(orderEntity)
+                            .build();
+
+                    // agregar producti
+                    orderEntity.addProduct(productEntity);
 
                     return productFromCatalog.getPrice().multiply(BigDecimal.valueOf(productDTO.getQuantity().longValue()));
                 })

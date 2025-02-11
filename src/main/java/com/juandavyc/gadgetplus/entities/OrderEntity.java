@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 import com.juandavyc.gadgetplus.entities.ProductEntity;
+import lombok.extern.slf4j.Slf4j;
 
 @Entity
 @Table(name = "orders")
@@ -22,7 +23,7 @@ import com.juandavyc.gadgetplus.entities.ProductEntity;
 @Getter
 @Setter
 @ToString
-
+@Slf4j
 public class OrderEntity {
 
     @Id
@@ -52,6 +53,11 @@ public class OrderEntity {
             orphanRemoval = true)
     private List<ProductEntity> products = new ArrayList<>();
 
+    @Column(nullable = true)
+    private LocalDateTime lastUpdated;
+
+    @Transient // la va a ignorar
+    private Boolean isSaved = false;
 
     public void addProduct(ProductEntity product) {
         this.products.add(product);
@@ -69,4 +75,41 @@ public class OrderEntity {
         return Objects.hashCode(id);
     }
 
+    @PrePersist
+    public void prePersist() {
+        //log.info("prePersist: {}",this.getCreatedAt());
+        this.setCreatedAt(LocalDateTime.now());
+        log.info("prePersist: {}",this.getCreatedAt());
+    }
+    @PostPersist
+    public void postPersist() {
+        log.info("postPersist: {}",this.getIsSaved());
+        this.setIsSaved(true);
+        log.info("postPersist: {}",this.getIsSaved());
+    }
+
+
+    @PreUpdate
+    public void preUpdate() {
+        log.info("preUpdate: {}",this.getLastUpdated());
+        this.setLastUpdated(LocalDateTime.now());
+        log.info("preUpdate: {}",this.getLastUpdated());
+    }
+
+    @PostUpdate
+    public void postUpdate() {
+        log.info("postUpdate: {}",this.getLastUpdated());
+    }
+
+
+    @PreRemove
+    public void preRemove() {
+        //this.products = new ArrayList<>();
+        this.products.clear();
+    }
+
+    @PostRemove
+    public void postRemove() {
+        log.warn("entity was removed");
+    }
 }
